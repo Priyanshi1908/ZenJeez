@@ -10,6 +10,124 @@ import { useDispatch,  useSelector } from 'react-redux';
 import { addToCart } from '../redux/actions/cartActions';
 
 function Products() {
+
+  const user = useSelector((state) => state);
+  const cart = useSelector((state) => state);
+
+
+  // const cartData = useSelector((state) => state);
+
+  
+
+  // let items = {};
+
+//  items = {
+//   user1: [
+//     {
+//       key: 1,
+//       item: {
+
+//       },
+//       quantity: 1
+//     },
+//     {
+//       key: 1,
+//       item: {},
+//       quantity: 1
+//     }
+//   ],
+//   user2: [],
+//   user3: [],
+//   user4: []
+// }
+
+const handleAddToCart = (selectedItem) => {
+    const userName = user.users.username;
+    const cartData = cart.items;
+        console.log(user)
+
+    if(Object.keys(cartData).length > 0) {
+        let keys = Object.keys(cartData);
+        let index = keys.findIndex((ele) => ele === userName);
+        if(index === -1){
+            const mainCart = {...cartData}
+            const userCart = []
+            const item2 = {
+              key: selectedItem.id,
+              item: selectedItem,
+              quantity: 1
+            }
+            userCart.push(item2)
+            mainCart[userName] = userCart
+            console.log(mainCart, userName);
+             dispatch(addToCart(...mainCart)); 
+        
+          }else {
+           const userCart =  cartData[index];
+           const existingItemIndex = userCart.findIndex((item) => item.key === selectedItem.id);
+           if (existingItemIndex !== -1) {
+            // If it exists, increase the quantity by 1
+            userCart[existingItemIndex].quantity += 1;
+        } else {
+          // If it doesn't exist, add it to the cart
+          const item3 = {
+              key: selectedItem.id,
+              item: selectedItem,
+              quantity: 1
+          };
+          userCart.push(item3);
+          cartData[index] = userCart;
+          dispatch(addToCart(...cartData)); 
+          console.log(userCart);
+
+        }
+           
+        }
+    }else {
+        const mainCart = {};
+        const userCart = [];
+        const item = {
+          key: selectedItem.id,
+          item: selectedItem,
+          quantity: 1
+        }
+        userCart.push(item)
+        mainCart[userName] = userCart;
+        console.log(...userCart);
+
+        dispatch(addToCart(mainCart)); 
+      }
+}
+  // const handleAddToCart = (selectedItem) => {
+  //   console.log(selectedItem, cartData)
+  //   localStorage.clear();
+  //   return;
+  //   if (Array.isArray(cartData)) {
+      
+  //     const cartIndex = cartData.findIndex((item) => item.key === selectedItem.id);
+      
+  //     if (cartIndex === -1) {
+  //       const newCart = [...cartData];
+  //       const newItem = {
+  //         item: selectedItem,
+  //         key: selectedItem.id,
+  //         quantity: 1,
+  //       };
+  //       newCart.push(newItem);
+  //       dispatch(addToCart(newCart)); 
+  //     } else {
+  //       const cartItem = cartData[cartIndex];
+  //       cartItem.quantity = cartItem.quantity + 1;
+  //       cartData[cartIndex] = cartItem;
+  //       dispatch(addToCart(cartData)); 
+  //     }
+  //   }
+  // };
+  
+  
+  
+  
+
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -30,9 +148,9 @@ function Products() {
 
   const dispatch = useDispatch();
 
-  const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
-  };
+  // const handleAddToCart = (product) => {
+  //   dispatch(addToCart(product));
+  // };
   return (
       
         <div className="bg-cream">
@@ -155,10 +273,14 @@ function Products() {
 				</div>
 				<div className="flex items-center justify-between">
 					<span className="text-2xl font-bold text-gray-900 dark:text-white">${product.price.toFixed(2)}</span>
-					<a href="#"
-           onClick={() => handleAddToCart(product)}
-						className="text-white bg-green hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-[20px] text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
-						to cart</a>
+          
+                              
+                              <a href="#"
+                              onClick={() => handleAddToCart(product)}
+                               className="text-white bg-green hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-[20px] text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                               to cart
+                             </a>
+                    
 				</div>
 			</div>
 	</div>

@@ -1,20 +1,23 @@
-// cartReducer.js
 const initialState = {
-    cartItems: [],
-  };
-  
-  const cartReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case 'ADD_TO_CART':
-        return {
-          ...state,
-          cartItems: [...state.cartItems, action.payload],
-        };
-      // Add other cart-related actions and cases if needed
-      default:
-        return state;
-    }
-  };
-  
-  export default cartReducer;
-  
+  items: [],
+};
+
+const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart')) || [];
+
+const cartReducer = (state = { ...initialState, items: cartFromLocalStorage }, action) => {
+  switch (action.type) {
+    case 'ADD_TO_CART':
+      const updatedCart = [...state.items, action.payload];
+
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+      return {
+        ...state,
+        items: updatedCart,
+      };
+    default:
+      return state;
+  }
+};
+
+export default cartReducer;

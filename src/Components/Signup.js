@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { addUser } from '../redux/actions/userActions';
 import trees from '../assets/trees.jpg';
 import bg1 from '../assets/bg1.jpeg';
@@ -8,9 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const Signup = ({ addUser }) => {
   const navigate = useNavigate();
 
-  const handleButtonClick = () => {
-    navigate('/Products');
-  };
+  const dispatch = useDispatch();
 
   const [user, setUser] = useState({ username: '', password: '' });
 
@@ -19,11 +17,21 @@ const Signup = ({ addUser }) => {
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleButtonClick = (e) => {
     e.preventDefault();
-    addUser(user);
+    dispatch(addUser(user));
+    const username = user.username; 
     setUser({ username: '', password: '' });
+    console.log('User data saved in local storage:', user);
+
+    navigate('/Products');
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   addUser(user);
+  //   setUser({ username: '', password: '' });
+  // };
 
   return (
     <div className="relative">
@@ -40,7 +48,7 @@ const Signup = ({ addUser }) => {
             <img className="w-full h-full" src={trees} alt="/" />
           </div>
           <div className="p-4 flex flex-col justify-around bg-white bg-opacity-70 backdrop-blur-md backdrop-filter">
-            <form onSubmit={handleSubmit}>
+            <form>
               <h2 className="text-4xl font-bold text-center mb-8">BRAND.</h2>
               <div className="">
                 <div className="mb-4">

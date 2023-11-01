@@ -2,8 +2,7 @@ import './App.css';
 import {Provider} from 'react-redux';
 import store from './redux/store'; 
 import Signup from './Components/Signup';
-import Nav from './Components/Nav';
-import Products from './Components/Products';
+import ProductsLayout from './Components/ProductsLayout';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
@@ -14,10 +13,11 @@ function App() {
        <BrowserRouter>
        <Routes>
         <Route path="/" element={<Signup />} />
-        <Route path="/Products" element={<Products />}/>
-          
+        
+        <Route path="/Products" element={<ProductsLayout />} />
+
+
       </Routes>
-         <Nav />
 
     </BrowserRouter>
     </Provider>

@@ -26,7 +26,7 @@ const Nav = () => {
 
 
   return (
-<div>
+<div className=''>
               <div
             className="py-4 px-6 flex fixed top-0 left-0 right-0 z-10 transition duration-1000"
             style={{
