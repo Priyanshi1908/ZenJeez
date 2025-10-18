@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { addUser } from '../redux/actions/userActions';
 import trees from '../assets/trees.jpg';
 import bg1 from '../assets/bg1.jpeg';
@@ -7,8 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 const Signup = ({ addUser }) => {
   const navigate = useNavigate();
-
-  const dispatch = useDispatch();
 
   const [user, setUser] = useState({ username: '', password: '' });
 
@@ -19,8 +17,7 @@ const Signup = ({ addUser }) => {
 
   const handleButtonClick = (e) => {
     e.preventDefault();
-    dispatch(addUser(user));
-    const username = user.username; 
+    addUser(user);
     setUser({ username: '', password: '' });
     console.log('User data saved in local storage:', user);
 
